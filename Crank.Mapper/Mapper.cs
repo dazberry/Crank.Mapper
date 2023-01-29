@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Crank.Mapper
 {
@@ -25,7 +24,7 @@ namespace Crank.Mapper
 
             public Type MappingInterfaceType { get; private set; }
 
-            public (Type source, Type destination) ArgumentTypes =>
+            public (Type source, Type destination) GetGenericTypeArguments() =>
                 (MappingInterfaceType.GenericTypeArguments[0],
                  MappingInterfaceType.GenericTypeArguments[1]);
 
@@ -37,19 +36,6 @@ namespace Crank.Mapper
                     .GetInterfaces()
                     .Where(x => x.IsGenericType)
                     .FirstOrDefault();
-            }
-
-            public bool CompareArguments(Type source, Type destination)
-            {
-                var result = ArgumentTypes.source == source &&
-                    ArgumentTypes.destination == destination;
-                return result;
-            }
-
-            public bool CompareArguments(MappingInterfaceTypes compareTo)
-            {
-                var (source, destination) = compareTo.ArgumentTypes;
-                return CompareArguments(source, destination);
             }
         }
 
@@ -65,25 +51,28 @@ namespace Crank.Mapper
 
             if (_mapperOptions.DisallowDuplicationMappingTypes)
             {
-                var duplicates = _mappings.GroupBy(
-                    x => x.ArgumentTypes,
-                    y => y,
-                    (x, y) =>
-                    {
-                        var matchingCount = y.Count(
-                            z => z.CompareArguments(x.source, x.destination));
-                        return (matchingCount > 1, x);
-                    })
-                    .Select(x => (dup: x.Item1, x.x))
-                    .Where(x => x.dup);
-
-
+                var duplicates = GetDuplicateMappings();
                 if (duplicates.Any())
                 {
-                    var (_, (source, destination)) = duplicates.First();
+                    var (source, destination) = duplicates.First();
                     throw new DuplicateMappingException(source, destination);
                 }
             }
+        }
+
+        private IEnumerable<(Type source, Type destination)> GetDuplicateMappings()
+        {
+            var duplicates = _mappings.GroupBy(
+                   x => x.GetGenericTypeArguments(),
+                   y => y,
+                   (x, y) =>
+                   {
+                       var count = y.Count(z => z.GetGenericTypeArguments() == x);
+                       return (isDuplicate: count > 1, x.source, x.destination);
+                   })
+                   .Where(x => x.isDuplicate)
+                   .Select(x => (x.source, x.destination));
+            return duplicates;
         }
 
         private bool GetMapping<TSource, TDestination>(out IMapping<TSource, TDestination> mapping)
