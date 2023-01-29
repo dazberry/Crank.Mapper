@@ -8,45 +8,53 @@ namespace Crank.Mapper.Tests
 {
     public class MapToTests
     {
+        public MapToTests()
+        {
+            _mapper = new Mapper(
+                new[] { new MapUserModel_To_UserEntity() });
+        }
+
+        private readonly Mapper _mapper;
+
+        private static UserModel CreateUserModel() =>
+            new UserModel()
+            {
+                UserId = Guid.NewGuid(),
+                Username = "username123",
+                UserAccess = UserAccessModel.Basic,
+            };
+
         [Fact]
         public void WhenMappingToEntities_IfAMappingExists_Success()
         {
-            var mapper = new Mapper(
-                new[] { new MapUserModel_To_UserEntity() });
+            //given
+            var userModel = CreateUserModel();
 
-            var userModel = new UserModel()
-            {
-                UserId = Guid.NewGuid(),
-                Username = "username123"
-            };
-
-            var userEntity = mapper.MapTo<UserEntity>()
-                .MapFrom<UserModel>(userModel)
+            //when mapping to an entity from a model
+            var userEntity = _mapper.MapTo<UserEntity>()
+                .MapFrom(userModel)
                 .Result;
 
+            //then
             Assert.NotNull(userEntity);
+            Assert.Equal($"{userModel.UserId:n}", userEntity.RowKey);
+            Assert.Equal(userModel.Username, userEntity.Username);
+            Assert.Equal((int)userModel.UserAccess, userEntity.UserAccess);
         }
 
         [Fact]
         public void WhenMappingToEntities_IfAMappingDoesNotExists_ThrowANotFoundException()
         {
-            var mapper = new Mapper(Array.Empty<IMapping>());
+            //given
+            UserEntity userEntity = new UserEntity();
 
-            var userModel = new UserModel()
+            //when the mapping does not exists
+            Assert.Throws<MappingNotFoundException<UserEntity, UserModel>>(() =>
             {
-                UserId = Guid.NewGuid(),
-                Username = "username123"
-            };
-
-            UserEntity userEntity = default;
-            Assert.Throws<MappingNotFoundException<UserModel, UserEntity>>(() =>
-            {
-                userEntity = mapper.MapTo<UserEntity>()
-                    .MapFrom<UserModel>(userModel)
+                var userModel = _mapper.MapTo<UserModel>()
+                    .MapFrom(userEntity)
                     .Result;
             });
-
-            Assert.Null(userEntity);
         }
     }
 }

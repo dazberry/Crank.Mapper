@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Mapper", "Crank.Mapper.csproj", "{F743B9BF-9E65-4690-AF23-1760E720B2BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crank.Mapper.Tests", "..\Crank.Mapper.Tests\Crank.Mapper.Tests.csproj", "{5B033E50-F253-44CC-9F33-34941E398A00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Mapper.Tests", "..\Crank.Mapper.Tests\Crank.Mapper.Tests.csproj", "{5B033E50-F253-44CC-9F33-34941E398A00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Initialisation", "Initialisation", "{A9AD3397-0943-4290-9532-4922F2895B22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crank.Initialise.Microsoft", "..\Initialisation\Crank.Initialise.Microsoft\Crank.Initialise.Microsoft.csproj", "{8E028465-7197-46C8-B766-069C12CD9232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crank.Initialise", "..\Initialisation\Crank.Initialise\Crank.Initialise.csproj", "{82FFE893-7B5B-46F3-BF12-4756A45897C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +27,21 @@ Global
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E028465-7197-46C8-B766-069C12CD9232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E028465-7197-46C8-B766-069C12CD9232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E028465-7197-46C8-B766-069C12CD9232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E028465-7197-46C8-B766-069C12CD9232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E028465-7197-46C8-B766-069C12CD9232} = {A9AD3397-0943-4290-9532-4922F2895B22}
+		{82FFE893-7B5B-46F3-BF12-4756A45897C7} = {A9AD3397-0943-4290-9532-4922F2895B22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADCDF92D-EEFD-46CE-BC9C-C86C0D4C4E9E}

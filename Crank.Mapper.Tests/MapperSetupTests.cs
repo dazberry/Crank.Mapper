@@ -47,7 +47,7 @@ namespace Crank.Mapper.Tests
             var intToStringExMap = new MapInt_To_StringThrowException();
             var mapUserModelToEntity = new MapUserModel_To_UserEntity();
             var mappings = new IMapping[] { mapUserModelToEntity, intToStringExMap, intToStringMap };
-            var options = new MapperOptions() { DisallowDuplicationMappingTypes = true };
+            var options = new MapperOptions() { DisallowDuplicateMappingTypes = true };
 
             //when/then
             var exception = Assert.Throws<DuplicateMappingException>(() =>

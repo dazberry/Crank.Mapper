@@ -8,8 +8,12 @@ namespace Crank.Mapper.Tests.Mappings
         public UserEntity Map(UserModel source, UserEntity destination = null)
         {
             destination ??= new UserEntity();
-            destination.UserId = $"{source.UserId}";
+
+            destination.PartitionId = "user";
+            destination.RowKey = $"{source.UserId:n}";
             destination.Username = source.Username;
+            destination.UserAccess = (int)source.UserAccess;
+
             return destination;
         }
     }
