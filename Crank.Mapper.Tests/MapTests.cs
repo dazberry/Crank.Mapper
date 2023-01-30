@@ -1,4 +1,3 @@
-using Crank.Mapper.Interfaces;
 using Crank.Mapper.Tests.Mappings;
 using Crank.Mapper.Tests.Models;
 using System;
