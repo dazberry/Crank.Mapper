@@ -13,32 +13,36 @@ namespace Crank.Mapper
             Result = destination;
         }
 
-        public MapDestination<TDestination> MapFrom<TSource>(TSource source)
+        public MapDestination<TDestination> MapFrom<TSource>(TSource source, bool throwMapNotFoundException = true)
         {
             if (!_mapper.TryGetMapping<TSource, TDestination>(out var mapping))
-                throw new MappingNotFoundException<TSource, TDestination>();
+            {
+                if (throwMapNotFoundException)
+                    throw new MappingNotFoundException<TSource, TDestination>();
+                return this;
+            }
 
             Result = mapping.Map(source, Result);
             return this;
         }
 
-        public MapDestination<TDestination> MapFrom<TSource, TSource1>(TSource source, TSource1 source1)
+        public MapDestination<TDestination> MapFrom<TSource, TSource1>(TSource source, TSource1 source1, bool throwMapNotFoundException = true)
         {
-            MapFrom(source);
-            MapFrom(source1);
+            MapFrom(source, throwMapNotFoundException);
+            MapFrom(source1, throwMapNotFoundException);
             return this;
         }
 
-        public MapDestination<TDestination> MapFrom<TSource, TSource1, TSource2>(TSource source, TSource1 source1, TSource2 source2)
+        public MapDestination<TDestination> MapFrom<TSource, TSource1, TSource2>(TSource source, TSource1 source1, TSource2 source2, bool throwMapNotFoundException = true)
         {
-            MapFrom(source, source1);
-            MapFrom(source2);
+            MapFrom(source, source1, throwMapNotFoundException);
+            MapFrom(source2, throwMapNotFoundException);
             return this;
         }
-        public MapDestination<TDestination> MapFrom<TSource, TSource1, TSource2, TSource3>(TSource source, TSource1 source1, TSource2 source2, TSource3 source3)
+        public MapDestination<TDestination> MapFrom<TSource, TSource1, TSource2, TSource3>(TSource source, TSource1 source1, TSource2 source2, TSource3 source3, bool throwMapNotFoundException = true)
         {
-            MapFrom(source, source1, source2);
-            MapFrom(source3);
+            MapFrom(source, source1, source2, throwMapNotFoundException);
+            MapFrom(source3, throwMapNotFoundException);
             return this;
         }
 
