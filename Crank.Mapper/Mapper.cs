@@ -152,5 +152,12 @@ namespace Crank.Mapper
             return mapping;
         }
 
+        public MapDestination<TDestination> MapNew<TDestination>()
+            where TDestination : class, new()
+        {
+            var mapping = new MapDestination<TDestination>(this, new TDestination());
+            return mapping;
+        }
+
     }
 }
