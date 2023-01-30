@@ -11,8 +11,6 @@ namespace Crank.Mapper
         {
             _mapper = mapper;
             Result = destination;
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
         }
 
         public MapDestination<TDestination> MapFrom<TSource>(TSource source)

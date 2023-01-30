@@ -142,14 +142,12 @@ namespace Crank.Mapper
         }
 
         public MapDestination<TDestination> MapTo<TDestination>()
-            where TDestination : class, new()
         {
-            var mapping = new MapDestination<TDestination>(this, new TDestination());
+            var mapping = new MapDestination<TDestination>(this);
             return mapping;
         }
 
         public MapDestination<TDestination> MapTo<TDestination>(TDestination destination)
-            where TDestination : class
         {
             var mapping = new MapDestination<TDestination>(this, destination);
             return mapping;
