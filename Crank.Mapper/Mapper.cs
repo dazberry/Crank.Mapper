@@ -10,7 +10,6 @@ namespace Crank.Mapper
         public bool ThrowMappingNotFoundException { get; set; }
         public bool DisallowDuplicateMappingTypes { get; set; }
         public Action<Type, Type> MappingNotFoundEvent { get; set; }
-        public Action<Exception> MappingFailedEvent { get; set; }
     }
 
     public class Mapper
@@ -122,7 +121,7 @@ namespace Crank.Mapper
             return default;
         }
 
-        public bool TryMap<TSource, TDestination>(TSource source, out TDestination destination)
+        public bool TryMap<TSource, TDestination>(TSource source, out TDestination destination, Action<Exception> MappingFailedEvent = default)
         {
             var haveMapping = GetMapping<TSource, TDestination>(out var mapping);
             destination = haveMapping ? mapping.Map(source) : default;
@@ -135,7 +134,7 @@ namespace Crank.Mapper
                 }
                 catch (Exception ex)
                 {
-                    _mapperOptions.MappingFailedEvent?.Invoke(ex);
+                    MappingFailedEvent?.Invoke(ex);
                 }
             }
             return false;
