@@ -9,7 +9,7 @@ to turn a crank, as in starting an automobile engine.
 Informal. an ill-tempered, grouchy person.
 
 ---
-**What** 
+**What**
 Crank.Mapper is not a mapper, or at least an automatic mapper. It is a set of classes that allow mapping based syntax such as *Mapper.Map<Source, Destination>(source)* but without implementing the mappings themselves. Mappings need to be manually implemented and registered.
 
 **Why**
@@ -67,6 +67,43 @@ It really depends how you want to use the mapper, but the safest way **is to cre
         return destination;
     }
 
+**MapNew (introduced in v1.0.3)**
+When MapTo is called it creates a MapDestination<TDestination> struct which supports the multiple source to single destination mapping example above.
+
+        public MapDestination<TDestination> MapTo<TDestination>();
+        public MapDestination<TDestination> MapTo<TDestination>(TDestination destination);
+
+If MapTo is called with no parameters the initial TDestination value will be null or default. This is likely not an issue if the next method called is a MapFrom and you are following the *create if needed, but do not replace if supplied* mantra.
+
+    public MapDestination<TDestination> MapFrom<TSource>(TSource source, bool throwMapNotFoundException = true);
+
+However if you first call Map, the value passed to the mapAction delegate will be null or default. 
+
+    public MapDestination<TDestination> Map(Action<TDestination> mapAction);
+
+This may not be desired behaviour. 
+
+    Mapper.MapTo<EditViewModel>()
+    .Map(x => {
+       x.SessionId = _session.Id; // <--- null reference exception
+       etc.
+    });
+    
+An alternative is to passed an instance of TDestination:
+
+    Mapper.MapTo<EditViewModel>(new EditViewModel())
+    .Map(x => {
+       x.SessionId = _session.Id;
+       etc.
+    });
+
+Alternatively if TDestination is generically new-able, the *new* **MapNew** method can be called instead of MapTo.
+
+    Mapper.MapNew<EditViewModel>()
+    .Map(x => {
+       x.SessionId = _session.Id;
+       etc.
+    });
 
 **MapperOptions**
 When creating a Mapper instance, some additional options are available to change the mapper behaviour.
@@ -95,4 +132,5 @@ The MapTo method includes a default throwMappingNotFound argument, that by defau
 |false| true | throws exception |
 |true| false | **throws exception** |
 |false| false | does not do mapping and fails silently |
+
 
