@@ -9,9 +9,14 @@ namespace Crank.Mapper.Tests
     {
         public MapToTests()
         {
-            _mapper = new Mapper(
-                new[] { new MapUserModel_To_UserEntity() });
+            _mapper = CreateMapper();
         }
+
+        private Mapper CreateMapper(MapperOptions mapperOptions = default) =>
+            new Mapper(
+                new[] { new MapUserModel_To_UserEntity() },
+                mapperOptions);
+
 
         private readonly Mapper _mapper;
 
@@ -54,6 +59,48 @@ namespace Crank.Mapper.Tests
                     .MapFrom(userEntity)
                     .Result;
             });
+        }
+
+        [Fact]
+        public void WhenMappingToEntities_ANullResultWhenInvokingMap_ThrowANullArgumentException()
+        {
+            //given
+            UserModel userModel = new UserModel();
+
+            //when
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                _mapper.MapTo<UserModel>()
+                    .Map(x =>
+                    {
+                        userModel = x;
+                    });
+            });
+            Assert.NotNull(userModel);
+        }
+
+        [Fact]
+        public void WhenMappingToEntities_ANullResultWhenInvokingMapWithTheIgnoreNullFlagSet_DoesNotThrowAnException()
+        {            //given
+
+            Mapper mapper = CreateMapper(
+                new MapperOptions()
+                {
+                    IgnoreNullResultWhenCallingDestinationMap = true
+                });
+
+            UserModel userModel = new UserModel();
+
+            //when
+            mapper.MapTo<UserModel>()
+                .Map(x =>
+                {
+                    userModel = x;
+                });
+
+
+            //then
+            Assert.Null(userModel);
         }
     }
 }

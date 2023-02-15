@@ -5,16 +5,11 @@ using System.Linq;
 
 namespace Crank.Mapper
 {
-    public struct MapperOptions
-    {
-        public bool ThrowMappingNotFoundException { get; set; }
-        public bool DisallowDuplicateMappingTypes { get; set; }
-        public Action<Type, Type> MappingNotFoundEvent { get; set; }
-    }
 
     public class Mapper
     {
         private readonly MapperOptions _mapperOptions;
+        public IMapperOptions Options => _mapperOptions;
 
         private struct MappingInterfaceTypes
         {
@@ -36,6 +31,7 @@ namespace Crank.Mapper
                     .FirstOrDefault();
             }
         }
+
         private readonly MappingInterfaceTypes[] _mappings;
 
         public Mapper(IEnumerable<IMapping> mappings, MapperOptions mapperOptions = default)
