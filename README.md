@@ -89,7 +89,7 @@ This may not be desired behaviour.
        etc.
     });
     
-An alternative is to passed an instance of TDestination:
+An alternative is to pass an instance of TDestination:
 
     Mapper.MapTo<EditViewModel>(new EditViewModel())
     .Map(x => {
