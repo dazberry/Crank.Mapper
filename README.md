@@ -1,3 +1,4 @@
+
 # Crank.Mapper
 
 **crank**
@@ -77,7 +78,8 @@ If MapTo is called with no parameters the initial TDestination value will be nul
 
     public MapDestination<TDestination> MapFrom<TSource>(TSource source, bool throwMapNotFoundException = true);
 
-However if you first call Map, the value passed to the mapAction delegate will be null or default. 
+~~However if you first call Map, the value passed to the mapAction delegate will be null or default.~~  
+1.0.4 If a null value is passed to the mapAction delegate, a **MapDestinationNullResultException** exception will be thrown. This behaviour can be changed by setting the **IgnoreNullResultWhenCallingDestinationMap** MapperOptions flag.
 
     public MapDestination<TDestination> Map(Action<TDestination> mapAction);
 
@@ -88,6 +90,8 @@ This may not be desired behaviour.
        x.SessionId = _session.Id; // <--- null reference exception
        etc.
     });
+
+
     
 An alternative is to pass an instance of TDestination:
 
@@ -113,6 +117,7 @@ When creating a Mapper instance, some additional options are available to change
         public bool ThrowMappingNotFoundException { get; set; }
         public bool DisallowDuplicateMappingTypes { get; set; }
         public Action<Type, Type> MappingNotFoundEvent { get; set; }
+        public bool IgnoreNullResultWhenCallingDestinationMap { get; set; } //new 1.0.4
     }
 
 | Default behaviour  | Changed Behaviour |
@@ -123,9 +128,13 @@ When creating a Mapper instance, some additional options are available to change
 |Allow duplicate IMapping types, but when attempting to Map, presently only the first one registered in invoked.| A DuplicateMappingException is thrown when attempting to create the mapper. |
 |**MappingNotFoundEvent**||
 |If set - invoked if a mapping is not found. Invokes before a ThrowMappingNotFoundException if triggered.| n/a |
+|**IgnoreNullResultWhenCallingDestinationMap**||
+|**new 1.0.4**. After calling MapTo, calling Map where the MapDestination Result value is null - will cause a **MapDestinationNullResultException** to be  thrown.|Set to true, a null value will be passed through the Map delegate.|
 
 ** **MapTo and ThrowMappingNotFoundException**
 The MapTo method includes a default throwMappingNotFound argument, that by default is set to true. However the ThrowMappingNotFoundException options flag may change this behaviour depending on how the flags are set.
+
+
 |flag|parameter  |result|
 |--|--|--|
 |true | true | throws exception |

@@ -65,17 +65,25 @@ namespace Crank.Mapper.Tests
         public void WhenMappingToEntities_ANullResultWhenInvokingMap_ThrowANullArgumentException()
         {
             //given
+            Mapper mapper = CreateMapper(
+                           new MapperOptions()
+                           {
+                               IgnoreNullResultWhenCallingDestinationMap = false
+                           });
+
             UserModel userModel = new UserModel();
 
-            //when
-            Assert.Throws<ArgumentNullException>(() =>
+            //when/then
+            var exception = Assert.Throws<MapDestinationNullResultException>(() =>
             {
-                _mapper.MapTo<UserModel>()
+                mapper.MapTo<UserModel>()
                     .Map(x =>
                     {
                         userModel = x;
                     });
             });
+
+            Assert.Equal("The MapDestination.Result Map value is null. Invoking the MapDestination.Map delegate will pass a null value in the mapAction delegate.", exception.Message);
             Assert.NotNull(userModel);
         }
 
@@ -101,6 +109,24 @@ namespace Crank.Mapper.Tests
 
             //then
             Assert.Null(userModel);
+        }
+
+        [Fact]
+        public void WhenMappingToEntities_IfCallingMapNull_ANewMapResultShouldBeCreated()
+        {
+            Mapper mapper = CreateMapper();
+            UserModel userModel = new UserModel();
+
+            //when
+            mapper.MapNew<UserModel>()
+                .Map(x =>
+                {
+                    userModel = x;
+                });
+
+
+            //then
+            Assert.NotNull(userModel);
         }
     }
 }

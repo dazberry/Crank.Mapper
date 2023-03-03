@@ -49,7 +49,7 @@ namespace Crank.Mapper
         public MapDestination<TDestination> Map(Action<TDestination> mapAction)
         {
             if ((Result == null) && !_mapper.Options.IgnoreNullResultWhenCallingDestinationMap)
-                throw new ArgumentNullException(nameof(Result));
+                throw new MapDestinationNullResultException();
 
             mapAction?.Invoke(Result);
             return this;
