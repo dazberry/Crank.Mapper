@@ -9,14 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Mapper.Tests", "Crank
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Initialisation", "Initialisation", "{A9AD3397-0943-4290-9532-4922F2895B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crank.Initialise.Microsoft", "Initialisation\Crank.Initialise.Microsoft\Crank.Initialise.Microsoft.csproj", "{8E028465-7197-46C8-B766-069C12CD9232}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crank.Initialise", "Initialisation\Crank.Initialise\Crank.Initialise.csproj", "{82FFE893-7B5B-46F3-BF12-4756A45897C7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{949E1587-D23B-4044-8039-CC6ABC484F59}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Mapper.Microsoft.DependencyInjection", "Crank.Mapper.Microsoft.DependencyInjection\Crank.Mapper.Microsoft.DependencyInjection.csproj", "{3D85C188-0A97-4565-ADDE-C57A7FEB4D10}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Mapper.Microsoft.DependingInjection.Tests", "Crank.Mapper.Microsoft.DependingInjection.Tests\Crank.Mapper.Microsoft.DependingInjection.Tests.csproj", "{B6936AF8-7248-4168-83D0-75C8A2DD1A07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crank.Initialise", "Crank.Initialise\Crank.Initialise.csproj", "{517A211C-A138-40F1-A847-7CCD5FCD5737}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,21 +34,21 @@ Global
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B033E50-F253-44CC-9F33-34941E398A00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E028465-7197-46C8-B766-069C12CD9232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E028465-7197-46C8-B766-069C12CD9232}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E028465-7197-46C8-B766-069C12CD9232}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E028465-7197-46C8-B766-069C12CD9232}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82FFE893-7B5B-46F3-BF12-4756A45897C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D85C188-0A97-4565-ADDE-C57A7FEB4D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D85C188-0A97-4565-ADDE-C57A7FEB4D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D85C188-0A97-4565-ADDE-C57A7FEB4D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D85C188-0A97-4565-ADDE-C57A7FEB4D10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6936AF8-7248-4168-83D0-75C8A2DD1A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6936AF8-7248-4168-83D0-75C8A2DD1A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6936AF8-7248-4168-83D0-75C8A2DD1A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6936AF8-7248-4168-83D0-75C8A2DD1A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517A211C-A138-40F1-A847-7CCD5FCD5737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517A211C-A138-40F1-A847-7CCD5FCD5737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517A211C-A138-40F1-A847-7CCD5FCD5737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517A211C-A138-40F1-A847-7CCD5FCD5737}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8E028465-7197-46C8-B766-069C12CD9232} = {A9AD3397-0943-4290-9532-4922F2895B22}
-		{82FFE893-7B5B-46F3-BF12-4756A45897C7} = {A9AD3397-0943-4290-9532-4922F2895B22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADCDF92D-EEFD-46CE-BC9C-C86C0D4C4E9E}

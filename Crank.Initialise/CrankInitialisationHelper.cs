@@ -23,7 +23,7 @@ namespace Crank.Initialise
             }
         }
 
-        public static IEnumerable<Type> GetTypesFromAssembly(Assembly assembly) =>
+        public static IEnumerable<Type> GetIMappingTypesFromAssembly(Assembly assembly) =>
             GetLoadableTypes(assembly)
                 .Where(typeof(IMapping).IsAssignableFrom)
                 .Where(x => x.IsClass);

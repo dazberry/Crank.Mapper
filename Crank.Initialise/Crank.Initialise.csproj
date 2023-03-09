@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Crank.Mapper\Crank.Mapper.csproj" />
+    <ProjectReference Include="..\Crank.Mapper\Crank.Mapper.csproj" />
   </ItemGroup>
 
 </Project>
