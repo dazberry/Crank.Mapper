@@ -7,6 +7,9 @@
     <Product>Cramp.Mapper.Microsoft.DependencyInjection</Product>
     <Description>Code to register Crank.Mapper and related IMapping implementations using Microsoft.Extensions.DependencyInjection.Abstractions. All classes are registered as singletons.</Description>
     <PackageProjectUrl>https://github.com/dazberry/Crank.Mapper</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
