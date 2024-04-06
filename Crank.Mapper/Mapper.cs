@@ -1,6 +1,7 @@
 ﻿using Crank.Mapper.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Crank.Mapper
@@ -93,7 +94,40 @@ namespace Crank.Mapper
             return mappingResult;
         }
 
+        private bool GetMapping<TSource, TSource2, TDestination>(out IMapping<TSource, TSource2, TDestination> mapping)
+        {
+            var mappingResult = false;
+            try
+            {
+                var _mapping = _mappings.First(map =>
+                    map.MappingInterfaceType == typeof(IMapping<TSource, TSource2, TDestination>));
+                mapping = _mapping.Mapping as IMapping<TSource, TSource2, TDestination>;
+                mappingResult = mapping != default;
+            }
+            catch (InvalidOperationException)
+            {
+                mapping = default;
+            }
+            finally
+            {
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"[Mapper] {(mappingResult ? "Success" : "Failed")}: TryGetMapping<{typeof(TSource)}, {typeof(TDestination)}>");
+#endif
+                if (!mappingResult)
+                    _mapperOptions.MappingNotFoundEvent?.Invoke(typeof(TSource), typeof(TDestination));
+            }
+            return mappingResult;
+        }
+
         public bool TryGetMapping<TSource, TDestination>(out IMapping<TSource, TDestination> mapping)
+        {
+            var result = GetMapping(out mapping);
+            if (!result && _mapperOptions.ThrowMappingNotFoundException)
+                throw new MappingNotFoundException<TSource, TDestination>();
+            return result;
+        }
+
+        public bool TryGetMapping<TSource, TSource2, TDestination>(out IMapping<TSource, TSource2, TDestination> mapping)
         {
             var result = GetMapping(out mapping);
             if (!result && _mapperOptions.ThrowMappingNotFoundException)
@@ -106,11 +140,27 @@ namespace Crank.Mapper
                 ? mapping.Map(source, destination)
                 : destination;
 
+        public TDestination Map<TSource, TSource2, TDestination>(TSource source, TSource2 source2, TDestination destination = default) =>
+            TryGetMapping<TSource, TSource2, TDestination>(out var mapping)
+                ? mapping.Map(source, source2, destination)
+                : destination;
+
         public TDestination Map<TSource, TDestination>(TSource source, Action<TDestination> destinationAction)
         {
             if (TryGetMapping<TSource, TDestination>(out var mapping))
             {
                 var destination = mapping.Map(source);
+                destinationAction?.Invoke(destination);
+                return destination;
+            }
+            return default;
+        }
+
+        public TDestination Map<TSource, TSource2, TDestination>(TSource source, TSource2 source2, Action<TDestination> destinationAction)
+        {
+            if (TryGetMapping<TSource, TSource2, TDestination>(out var mapping))
+            {
+                var destination = mapping.Map(source, source2);
                 destinationAction?.Invoke(destination);
                 return destination;
             }
@@ -126,6 +176,25 @@ namespace Crank.Mapper
                 try
                 {
                     destination = mapping.Map(source);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MappingFailedEvent?.Invoke(ex);
+                }
+            }
+            return false;
+        }
+
+        public bool TryMap<TSource, TSource2, TDestination>(TSource source, TSource2 source2, out TDestination destination, Action<Exception> MappingFailedEvent = default)
+        {
+            var haveMapping = GetMapping<TSource, TSource2, TDestination>(out var mapping);
+            destination = haveMapping ? mapping.Map(source, source2) : default;
+            if (haveMapping)
+            {
+                try
+                {
+                    destination = mapping.Map(source, source2);
                     return true;
                 }
                 catch (Exception ex)
