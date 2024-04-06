@@ -1,4 +1,5 @@
-﻿using Crank.Mapper.Tests.Mappings;
+﻿using Crank.Mapper.Interfaces;
+using Crank.Mapper.Tests.Mappings;
 using Crank.Mapper.Tests.Models;
 using System;
 using Xunit;
@@ -14,7 +15,11 @@ namespace Crank.Mapper.Tests
 
         private Mapper CreateMapper(MapperOptions mapperOptions = default) =>
             new Mapper(
-                new[] { new MapUserModel_To_UserEntity() },
+                new IMapping[]
+                {
+                    new MapUserModel_To_UserEntity(),
+                    new MapUserModelAndPartitionId_To_UserEntity()
+                },
                 mapperOptions);
 
 
@@ -41,6 +46,26 @@ namespace Crank.Mapper.Tests
 
             //then
             Assert.NotNull(userEntity);
+            Assert.Equal($"{userModel.UserId:n}", userEntity.RowKey);
+            Assert.Equal(userModel.Username, userEntity.Username);
+            Assert.Equal((int)userModel.UserAccess, userEntity.UserAccess);
+        }
+
+        [Fact]
+        public void WhenMappingToEntitiesWithMapBoth_IfAMappingExists_Success()
+        {
+            //given
+            var userModel = CreateUserModel();
+            var partitionId = new PartitionId() { Value = Guid.NewGuid() };
+
+            //when mapping to an entity from a model
+            var userEntity = _mapper.MapTo<UserEntity>()
+                .MapFromBoth(userModel, partitionId)
+                .Result;
+
+            //then
+            Assert.NotNull(userEntity);
+            Assert.Equal($"{partitionId.Value:n}", userEntity.PartitionId);
             Assert.Equal($"{userModel.UserId:n}", userEntity.RowKey);
             Assert.Equal(userModel.Username, userEntity.Username);
             Assert.Equal((int)userModel.UserAccess, userEntity.UserAccess);
