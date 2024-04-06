@@ -109,6 +109,14 @@ Alternatively if TDestination is generically new-able, the *new* **MapNew** meth
        etc.
     });
 
+**MapBoth (introduced in v1.0.5)**
+A new overloaded Map method has been added to the Mapper (*and MapFromBoth to MapDestination*) that allows two source objects to be passed to a mapping together. 
+
+The general idea is to allow some sort of runtime configuration to be passed with the source object for the mapping.
+
+    var userModel = _mapper.Map<UserEntity, EntityToModelMapConfig, UserModel>(userEntity, entityToModelMapConfig);
+
+
 **MapperOptions**
 When creating a Mapper instance, some additional options are available to change the mapper behaviour.
 
@@ -141,5 +149,4 @@ The MapTo method includes a default throwMappingNotFound argument, that by defau
 |false| true | throws exception |
 |true| false | **throws exception** |
 |false| false | does not do mapping and fails silently |
-
 
